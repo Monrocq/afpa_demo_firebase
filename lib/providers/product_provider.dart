@@ -24,6 +24,7 @@ class ProductProvider {
       ));
       counterListKey++;
     });
+    productsList.sort((a, b) => a.ref.compareTo(b.ref));
     return productsList;
   }
 
