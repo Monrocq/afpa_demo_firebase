@@ -1,3 +1,4 @@
+import 'package:afpa_demo_firebase/constants.dart';
 import 'package:afpa_demo_firebase/helpers/firebase_database_helper.dart';
 import 'package:afpa_demo_firebase/models/product.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -18,9 +19,9 @@ class ProductProvider {
     productsListData.forEach((product) {
       productsList.add(Product(
         ref: productsListKey[counterListKey],
-        name: product["nom"],
-        price: double.parse(product["prix"].toString()),
-        available: product["available"]
+        name: product[PRODUCT_NAME],
+        price: double.parse(product[PRODUCT_PRICE].toString()),
+        available: product[PRODUCT_AVAILABLE]
       ));
       counterListKey++;
     });
@@ -30,5 +31,15 @@ class ProductProvider {
   Future<void> updateAvailable(String reference, bool newValue) async {
     await firebaseDatabaseHelper.updateValue("products/$reference", "available", newValue);
     return;
+  }
+  
+  Future<void> setProduct() async {
+    Product product = Product(
+      name: "steak",
+      price: 15,
+      available: true,
+      ref: "produit4"
+    );
+    firebaseDatabaseHelper.setObject("products/${product.ref}", product.toMap());
   }
 }

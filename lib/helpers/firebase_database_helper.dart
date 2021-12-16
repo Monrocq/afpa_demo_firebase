@@ -16,4 +16,9 @@ class FirebaseDatabaseHelper {
     });
     return;
   }
+
+  Future<void> setObject(String reference, Map<String, dynamic> objectMapped) async {
+    await database.ref(reference).set(objectMapped);
+    return;
+  }
 }
