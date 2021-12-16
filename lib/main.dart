@@ -63,9 +63,16 @@ class _MyHomePageState extends State<MyHomePage> {
               return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
+                    return SwitchListTile(
                         title: Text(snapshot.data![index].name),
                         subtitle: Text(snapshot.data![index].price.toString()+'€'),
+                        value: snapshot.data![index].available,
+                        onChanged: (bool value) {
+                          setState(() {
+                            snapshot.data![index].available = value;
+                            _productProvider.updateAvailable(snapshot.data![index].ref, value);
+                          });
+                        },
                     );
                   }
               );

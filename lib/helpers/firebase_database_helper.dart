@@ -9,4 +9,11 @@ class FirebaseDatabaseHelper {
     DataSnapshot dataSnapshot = await ref.get();
     return dataSnapshot;
   }
+
+  Future<void> updateValue(String reference, String key, dynamic value) async {
+    await database.ref(reference).update({
+      key: value
+    });
+    return;
+  }
 }

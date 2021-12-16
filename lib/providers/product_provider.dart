@@ -12,12 +12,23 @@ class ProductProvider {
     Object? productsValue = dataSnapshot.value;
     Map productsListMap = productsValue as Map;
     List productsListData = productsListMap.values.toList();
+    List productsListKey = productsListMap.keys.toList();
+    print(productsListKey);
+    int counterListKey = 0;
     productsListData.forEach((product) {
       productsList.add(Product(
+        ref: productsListKey[counterListKey],
         name: product["nom"],
-        price: double.parse(product["prix"].toString())
+        price: double.parse(product["prix"].toString()),
+        available: product["available"]
       ));
+      counterListKey++;
     });
     return productsList;
+  }
+
+  Future<void> updateAvailable(String reference, bool newValue) async {
+    await firebaseDatabaseHelper.updateValue("products/$reference", "available", newValue);
+    return;
   }
 }
