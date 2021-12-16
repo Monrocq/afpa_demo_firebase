@@ -21,4 +21,9 @@ class FirebaseDatabaseHelper {
     await database.ref(reference).set(objectMapped);
     return;
   }
+
+  Future<void> deleteObject(String reference) async {
+    await database.ref(reference).remove();
+    return;
+  }
 }

@@ -42,6 +42,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late FirebaseDatabaseHelper _firebaseDatabaseHelper;
+  late Future<List<Product>> futureProducts;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +71,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return SwitchListTile(
-                        title: Text(snapshot.data![index].name),
-                        subtitle: Text(snapshot.data![index].price.toString()+'€'),
+                        title: Text(snapshot.data![index].name + ' ' + snapshot.data![index].price.toString()+'€'),
+                        subtitle: TextButton(onPressed: (){
+                          _productProvider.removeProduct(snapshot.data![index]);
+                          setState(() {});
+                        }, child: Text("Supprimer", style: TextStyle(color: Colors.red)),),
                         value: snapshot.data![index].available,
                         onChanged: (bool value) {
                           setState(() {
-                            snapshot.data![index].available = value;
                             _productProvider.updateAvailable(snapshot.data![index].ref, value);
+                            snapshot.data![index].available = value;
                           });
                         },
                     );

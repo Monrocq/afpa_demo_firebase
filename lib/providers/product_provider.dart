@@ -14,7 +14,6 @@ class ProductProvider {
     Map productsListMap = productsValue as Map;
     List productsListData = productsListMap.values.toList();
     List productsListKey = productsListMap.keys.toList();
-    print(productsListKey);
     int counterListKey = 0;
     productsListData.forEach((product) {
       productsList.add(Product(
@@ -29,7 +28,7 @@ class ProductProvider {
   }
 
   Future<void> updateAvailable(String reference, bool newValue) async {
-    await firebaseDatabaseHelper.updateValue("products/$reference", "available", newValue);
+    await firebaseDatabaseHelper.updateValue("products/$reference", PRODUCT_AVAILABLE, newValue);
     return;
   }
   
@@ -41,5 +40,10 @@ class ProductProvider {
       ref: "produit4"
     );
     firebaseDatabaseHelper.setObject("products/${product.ref}", product.toMap());
+  }
+
+  Future<void> removeProduct(Product product) async {
+    await firebaseDatabaseHelper.deleteObject("products/${product.ref}");
+    return;
   }
 }
